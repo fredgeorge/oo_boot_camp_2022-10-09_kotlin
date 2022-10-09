@@ -25,4 +25,6 @@ class Chance(likelihoodAsFraction: Number) {
     override fun hashCode() = (fraction / EPSILON).roundToLong().hashCode()
 
     operator fun not() = Chance(CERTAIN_FRACTION - fraction)
+
+    infix fun and(other: Chance) = Chance(this.fraction * other.fraction)
 }
