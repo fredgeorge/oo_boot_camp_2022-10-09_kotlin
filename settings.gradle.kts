@@ -4,5 +4,5 @@
  * @author Fred George  fredgeorge@acm.org
  */
  
-rootProject.name = "oo_boot_camp_template_kotlin"
+rootProject.name = "oo_boot_camp_2022-10-09_kotlin"
 include("exercises", "tests")
