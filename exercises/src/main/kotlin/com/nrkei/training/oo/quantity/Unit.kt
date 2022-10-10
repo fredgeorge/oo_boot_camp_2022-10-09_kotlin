@@ -6,9 +6,13 @@
 
 package com.nrkei.training.oo.quantity
 
+import kotlin.math.roundToLong
+
 // Understands a specific metric
 class Unit {
     companion object {
+        internal const val EPSILON = 1e-10
+
         private val TEASPOON = Unit()
         private val TABLESPOON = Unit(3, TEASPOON)
         private val OUNCE = Unit(2, TABLESPOON)
@@ -80,7 +84,7 @@ class Unit {
             require(this isCompatible other) { "Incompatible Units" }
         }
 
-    internal fun hashCode(amount: Double) = ((amount - offset) * baseUnitRatio).hashCode()
+    internal fun hashCode(amount: Double) = ((amount - offset) * baseUnitRatio / EPSILON).roundToLong().hashCode()
 
     internal infix fun isCompatible(other: Unit) = this.baseUnit == other.baseUnit
 }

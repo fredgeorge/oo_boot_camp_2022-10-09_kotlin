@@ -6,13 +6,17 @@
 
 package com.nrkei.training.oo.quantity
 
+import com.nrkei.training.oo.quantity.Unit.Companion.EPSILON
+import kotlin.math.absoluteValue
+
 // Understands a specific measurement
 class Quantity internal constructor(amount: Number, private val unit: Unit) {
     private val amount = amount.toDouble()
 
     override fun equals(other: Any?) = this === other || other is Quantity && this.equals(other)
 
-    private fun equals(other: Quantity) = this isCompatible other && this.amount == convertedAmount(other)
+    private fun equals(other: Quantity) = this isCompatible other &&
+            (this.amount - convertedAmount(other)).absoluteValue < EPSILON
 
     private infix fun isCompatible(other: Quantity) = this.unit isCompatible other.unit
 
