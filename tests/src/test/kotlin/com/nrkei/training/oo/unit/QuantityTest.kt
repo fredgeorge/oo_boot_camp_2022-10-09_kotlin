@@ -6,8 +6,11 @@
 
 package com.nrkei.training.oo.unit
 
+import com.nrkei.training.oo.quantity.Quantity
+import com.nrkei.training.oo.quantity.Unit.Companion.celsius
 import com.nrkei.training.oo.quantity.Unit.Companion.chains
 import com.nrkei.training.oo.quantity.Unit.Companion.cups
+import com.nrkei.training.oo.quantity.Unit.Companion.fahrenheit
 import com.nrkei.training.oo.quantity.Unit.Companion.fathoms
 import com.nrkei.training.oo.quantity.Unit.Companion.feet
 import com.nrkei.training.oo.quantity.Unit.Companion.furlongs
@@ -68,5 +71,17 @@ internal class QuantityTest {
 
     @Test fun `incompatible units`() {
         org.junit.jupiter.api.assertThrows<IllegalArgumentException> { 3.yards - 4.tablespoons }
+    }
+
+    @Test internal fun temperatures() {
+        assertBidirectionalEquality(0.celsius, 32.fahrenheit)
+        assertBidirectionalEquality(10.celsius, 50.fahrenheit)
+        assertBidirectionalEquality(100.celsius, 212.fahrenheit)
+        assertBidirectionalEquality((-40).celsius, (-40).fahrenheit)
+    }
+
+    private fun assertBidirectionalEquality(left: Quantity, right: Quantity) {
+        assertEquals(left, right)
+        assertEquals(right, left)
     }
 }
