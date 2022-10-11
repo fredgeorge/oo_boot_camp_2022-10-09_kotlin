@@ -8,6 +8,10 @@ package com.nrkei.training.oo.rectangle
 
 // Understands a four-sided polygon with sides at right angles
 class Rectangle(length: Number, width: Number) {
+    companion object {
+        fun square(side: Number) = Rectangle(side, side)
+    }
+
     private val length = length.toDouble()
     private val width = width.toDouble()
 
