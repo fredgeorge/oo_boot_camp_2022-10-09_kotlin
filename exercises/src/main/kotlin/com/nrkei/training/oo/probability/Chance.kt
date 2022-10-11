@@ -6,11 +6,12 @@
 
 package com.nrkei.training.oo.probability
 
+import com.nrkei.training.oo.order.Orderable
 import kotlin.math.absoluteValue
 import kotlin.math.roundToLong
 
 // Understands the likelihood of something occurring
-class Chance(likelihoodAsFraction: Number) {
+class Chance(likelihoodAsFraction: Number) : Orderable<Chance> {
     companion object {
         private const val CERTAIN_FRACTION = 1.0
         private const val EPSILON = 1e-10
@@ -34,4 +35,6 @@ class Chance(likelihoodAsFraction: Number) {
 
     // Implemented with DeMorgan's Law https://en.wikipedia.org/wiki/De_Morgan%27s_laws
     infix fun or(other: Chance) = !(!this and !other)
+
+    override fun isBetterThan(other: Chance) = this.fraction < other.fraction
 }
