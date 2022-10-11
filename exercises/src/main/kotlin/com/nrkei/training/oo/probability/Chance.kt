@@ -36,5 +36,5 @@ class Chance(likelihoodAsFraction: Number) : Orderable<Chance> {
     // Implemented with DeMorgan's Law https://en.wikipedia.org/wiki/De_Morgan%27s_laws
     infix fun or(other: Chance) = !(!this and !other)
 
-    override fun isBetterThan(other: Chance) = this.fraction < other.fraction
+    override infix fun isBetterThan(other: Chance) = this.fraction < other.fraction
 }

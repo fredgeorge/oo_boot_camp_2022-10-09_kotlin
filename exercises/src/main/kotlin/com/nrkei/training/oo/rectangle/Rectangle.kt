@@ -27,5 +27,5 @@ class Rectangle(length: Number, width: Number) : Orderable<Rectangle> {
     fun perimeter() = 2 * (length + width)
     val perimeter get() = perimeter()
 
-    override fun isBetterThan(other: Rectangle) = this.area > other.area
+    override infix fun isBetterThan(other: Rectangle) = this.area > other.area
 }
