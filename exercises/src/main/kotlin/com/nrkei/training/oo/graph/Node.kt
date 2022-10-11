@@ -18,8 +18,7 @@ class Node {
         if (this == destination) return true
         if (this in visitedNodes) return false
         visitedNodes.add(this)
-        for (n in neighbors) if (n.canReach(destination, visitedNodes)) return true
-        return false
+        return neighbors.any { it.canReach(destination, visitedNodes) }
     }
 
     private val noVisitedNodes get() = mutableListOf<Node>()
