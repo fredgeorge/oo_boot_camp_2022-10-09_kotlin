@@ -34,3 +34,5 @@ abstract class Path internal constructor() {
         override fun hopCount() = Int.MAX_VALUE
     }
 }
+
+typealias PathStrategy = (Path) -> Number

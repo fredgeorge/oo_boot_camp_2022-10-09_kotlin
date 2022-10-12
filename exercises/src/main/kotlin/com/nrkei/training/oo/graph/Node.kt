@@ -24,15 +24,15 @@ class Node {
         require(it != UNREACHABLE) { "Destination cannot be reached" }
     }
 
-    infix fun path(destination: Node) = path(destination, noVisitedNodes)
+    infix fun path(destination: Node) = path(destination, noVisitedNodes, Path::cost)
         .also { require(it != Path.None) { "Destination cannot be reached" } }
 
-    internal fun path(destination: Node, visitedNodes: List<Node>): Path {
+    internal fun path(destination: Node, visitedNodes: List<Node>, strategy: PathStrategy): Path {
         if (this == destination) return Path.ActualPath()
         if (this in visitedNodes) return Path.None
         return links
-            .map { it.path(destination, visitedNodes + this) }
-            .minByOrNull { it?.cost() ?: Double.POSITIVE_INFINITY }
+            .map { it.path(destination, visitedNodes + this, strategy) }
+            .minByOrNull { strategy(it).toDouble() }
             ?: Path.None
     }
 

@@ -21,8 +21,8 @@ internal class Link internal constructor(
     internal fun cost(destination: Node, visitedNodes: List<Node>, strategy: CostStrategy) =
         target.cost(destination, visitedNodes, strategy) + strategy(cost)
 
-    internal fun path(destination: Node, visitedNodes: List<Node>) =
-        target.path(destination, visitedNodes).also { it.prepend(this) }
+    internal fun path(destination: Node, visitedNodes: List<Node>, strategy: PathStrategy) =
+        target.path(destination, visitedNodes, strategy).also { it.prepend(this) }
 }
 
 typealias CostStrategy = (Double) -> Double
