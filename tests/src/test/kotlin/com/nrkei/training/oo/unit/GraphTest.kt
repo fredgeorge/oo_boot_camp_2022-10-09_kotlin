@@ -40,7 +40,7 @@ internal class GraphTest {
         assertEquals(1, B hopCount A)
         assertEquals(1, B hopCount F)
         assertEquals(2, B hopCount D)
-        assertEquals(4, C hopCount F)
+        assertEquals(3, C hopCount F)
         org.junit.jupiter.api.assertThrows<IllegalArgumentException> { G hopCount B }
         org.junit.jupiter.api.assertThrows<IllegalArgumentException> { A hopCount B }
         org.junit.jupiter.api.assertThrows<IllegalArgumentException> { B hopCount G }
