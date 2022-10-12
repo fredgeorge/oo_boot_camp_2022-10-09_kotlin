@@ -26,5 +26,6 @@ open class IntervalQuantity internal constructor(amount: Number, protected val u
 
     override fun hashCode() = unit.hashCode(amount)
 
-    override fun isBetterThan(other: IntervalQuantity) = this.amount > convertedAmount(other)
+    override fun isBetterThan(other: IntervalQuantity) =
+        this.amount > convertedAmount(other)
 }
