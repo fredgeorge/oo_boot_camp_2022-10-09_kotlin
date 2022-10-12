@@ -24,6 +24,17 @@ class Node {
         require(it != UNREACHABLE) { "Destination cannot be reached" }
     }
 
+    infix fun path(destination: Node) = path(destination, noVisitedNodes)
+        ?: throw IllegalArgumentException("Destination cannot be reached")
+
+    internal fun path(destination: Node, visitedNodes: List<Node>): Path? {
+        if (this == destination) return Path()
+        if (this in visitedNodes) return null
+        return links
+            .mapNotNull { it.path(destination, visitedNodes + this) }
+            .minByOrNull { it.cost() }
+    }
+
     internal fun cost(destination: Node, visitedNodes: List<Node>, strategy: CostStrategy): Double {
         if (this == destination) return 0.0
         if (this in visitedNodes || links.isEmpty()) return UNREACHABLE
