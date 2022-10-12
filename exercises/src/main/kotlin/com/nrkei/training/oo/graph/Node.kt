@@ -9,7 +9,7 @@ package com.nrkei.training.oo.graph
 // Understands its neighbors
 class Node {
     companion object {
-        private const val UNREACHABLE = -1
+        private const val UNREACHABLE = Double.POSITIVE_INFINITY
     }
 
     private val neighbors = mutableListOf<Node>()
@@ -20,16 +20,15 @@ class Node {
 
     infix fun hopCount(destination: Node) = hopCount(destination, noVisitedNodes).also {
         require(it != UNREACHABLE) { "Destination cannot be reached" }
-    }
+    }.toInt()
 
-    private fun hopCount(destination: Node, visitedNodes: List<Node>): Int {
-        if (this == destination) return 0
+    private fun hopCount(destination: Node, visitedNodes: List<Node>): Double {
+        if (this == destination) return 0.0
         if (this in visitedNodes) return UNREACHABLE
         var champion = UNREACHABLE
         for (n in neighbors) {
-            val challenger = n.hopCount(destination, visitedNodes + this)
-            if (challenger == UNREACHABLE) continue
-            if (champion == UNREACHABLE || challenger + 1 < champion) champion = challenger + 1
+            val challenger = n.hopCount(destination, visitedNodes + this) + 1
+            if (challenger < champion) champion = challenger
         }
         return champion
     }
