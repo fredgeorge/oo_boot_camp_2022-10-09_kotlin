@@ -14,4 +14,7 @@ internal class Link internal constructor(
 
     internal fun hopCount(destination: Node, visitedNodes: List<Node>) =
         target.hopCount(destination, visitedNodes) + 1
+
+    internal fun cost(destination: Node, visitedNodes: List<Node>) =
+        target.cost(destination, visitedNodes) + cost
 }

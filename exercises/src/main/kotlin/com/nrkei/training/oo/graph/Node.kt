@@ -20,6 +20,16 @@ class Node {
         require(it != UNREACHABLE) { "Destination cannot be reached" }
     }.toInt()
 
+    infix fun cost(destination: Node) = cost(destination, noVisitedNodes).also {
+        require(it != UNREACHABLE) { "Destination cannot be reached" }
+    }
+
+    internal fun cost(destination: Node, visitedNodes: List<Node>): Double {
+        if (this == destination) return 0.0
+        if (this in visitedNodes || links.isEmpty()) return UNREACHABLE
+        return links.minOf { it.cost(destination, visitedNodes + this)}
+    }
+
     internal fun hopCount(destination: Node, visitedNodes: List<Node>): Double {
         if (this == destination) return 0.0
         if (this in visitedNodes || links.isEmpty()) return UNREACHABLE

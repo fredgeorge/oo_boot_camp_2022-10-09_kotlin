@@ -3,6 +3,7 @@ package com.nrkei.training.oo.unit
 import com.nrkei.training.oo.graph.Node
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 // Ensures that graph algorithms perform correctly
 internal class GraphTest {
@@ -41,8 +42,19 @@ internal class GraphTest {
         assertEquals(1, B hopCount F)
         assertEquals(2, B hopCount D)
         assertEquals(3, C hopCount F)
-        org.junit.jupiter.api.assertThrows<IllegalArgumentException> { G hopCount B }
-        org.junit.jupiter.api.assertThrows<IllegalArgumentException> { A hopCount B }
-        org.junit.jupiter.api.assertThrows<IllegalArgumentException> { B hopCount G }
+        assertThrows<IllegalArgumentException> { G hopCount B }
+        assertThrows<IllegalArgumentException> { A hopCount B }
+        assertThrows<IllegalArgumentException> { B hopCount G }
+    }
+
+    @Test internal fun cost() {
+        assertEquals(0.0, B cost B)
+        assertEquals(5.0, B cost A)
+        assertEquals(4.0, B cost F)
+        assertEquals(7.0, B cost D)
+        assertEquals(10.0, C cost F)
+        assertThrows<IllegalArgumentException> { G cost B }
+        assertThrows<IllegalArgumentException> { A cost B }
+        assertThrows<IllegalArgumentException> { B cost G }
     }
 }
