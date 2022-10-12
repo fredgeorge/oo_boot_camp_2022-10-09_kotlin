@@ -9,14 +9,23 @@ package com.nrkei.training.oo.graph
 import com.nrkei.training.oo.graph.Link.Companion.cost
 
 // Understands a route from one Node to another
-class Path internal constructor() {
-    private val links = mutableListOf<Link>()
+abstract class Path internal constructor() {
 
-    internal fun prepend(link: Link) {
-        links.add(0, link)
+    internal open fun prepend(link: Link) {}
+
+    abstract fun cost(): Double
+
+    abstract fun hopCount(): Int
+
+    class ActualPath internal constructor() : Path() {
+        private val links = mutableListOf<Link>()
+
+        override fun prepend(link: Link) {
+            links.add(0, link)
+        }
+
+        override fun cost() = links.cost()
+
+        override fun hopCount() = links.size
     }
-
-    fun cost() = links.cost()
-
-    fun hopCount() = links.size
 }
