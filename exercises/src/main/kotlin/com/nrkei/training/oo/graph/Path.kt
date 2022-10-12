@@ -17,7 +17,7 @@ abstract class Path internal constructor() {
 
     abstract fun hopCount(): Int
 
-    class ActualPath internal constructor() : Path() {
+    internal class ActualPath internal constructor() : Path() {
         private val links = mutableListOf<Link>()
 
         override fun prepend(link: Link) {
@@ -27,5 +27,10 @@ abstract class Path internal constructor() {
         override fun cost() = links.cost()
 
         override fun hopCount() = links.size
+    }
+
+    internal object None : Path() {
+        override fun cost() = Double.POSITIVE_INFINITY
+        override fun hopCount() = Int.MAX_VALUE
     }
 }

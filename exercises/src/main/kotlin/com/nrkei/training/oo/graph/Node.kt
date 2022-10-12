@@ -25,14 +25,15 @@ class Node {
     }
 
     infix fun path(destination: Node) = path(destination, noVisitedNodes)
-        ?: throw IllegalArgumentException("Destination cannot be reached")
+        .also { require(it != Path.None) { "Destination cannot be reached" } }
 
-    internal fun path(destination: Node, visitedNodes: List<Node>): Path? {
+    internal fun path(destination: Node, visitedNodes: List<Node>): Path {
         if (this == destination) return Path.ActualPath()
-        if (this in visitedNodes) return null
+        if (this in visitedNodes) return Path.None
         return links
-            .mapNotNull { it.path(destination, visitedNodes + this) }
-            .minByOrNull { it.cost() }
+            .map { it.path(destination, visitedNodes + this) }
+            .minByOrNull { it?.cost() ?: Double.POSITIVE_INFINITY }
+            ?: Path.None
     }
 
     internal fun cost(destination: Node, visitedNodes: List<Node>, strategy: CostStrategy): Double {
