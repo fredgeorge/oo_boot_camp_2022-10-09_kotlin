@@ -8,24 +8,19 @@ package com.nrkei.training.oo.graph
 
 // Understands its neighbors
 class Node {
-    companion object {
-        private const val UNREACHABLE = Double.POSITIVE_INFINITY
-    }
-
     private val links = mutableListOf<Link>()
 
-    infix fun canReach(destination: Node) = cost(destination, noVisitedNodes, Link.LEAST_COST) != UNREACHABLE
+    infix fun canReach(destination: Node) = path(destination, noVisitedNodes, Path::cost) != Path.None
 
-    infix fun hopCount(destination: Node) = cost(destination, Link.FEWEST_HOPS).toInt()
+    infix fun hopCount(destination: Node) = path(destination, Path::hopCount).hopCount()
 
-    infix fun cost(destination: Node) = cost(destination, Link.LEAST_COST)
+    infix fun cost(destination: Node) = path(destination).cost()
 
-    private fun cost(destination: Node, strategy: CostStrategy) = cost(destination, noVisitedNodes, strategy).also {
-        require(it != UNREACHABLE) { "Destination cannot be reached" }
-    }
+    infix fun path(destination: Node) = path(destination, Path::cost)
 
-    infix fun path(destination: Node) = path(destination, noVisitedNodes, Path::cost)
-        .also { require(it != Path.None) { "Destination cannot be reached" } }
+    private fun path(destination: Node, strategy: PathStrategy) =
+        path(destination, noVisitedNodes, strategy)
+            .also { require(it != Path.None) { "Destination cannot be reached" } }
 
     internal fun path(destination: Node, visitedNodes: List<Node>, strategy: PathStrategy): Path {
         if (this == destination) return Path.ActualPath()
@@ -36,12 +31,6 @@ class Node {
             ?: Path.None
     }
 
-    internal fun cost(destination: Node, visitedNodes: List<Node>, strategy: CostStrategy): Double {
-        if (this == destination) return 0.0
-        if (this in visitedNodes || links.isEmpty()) return UNREACHABLE
-        return links.minOf { it.cost(destination, visitedNodes + this, strategy)}
-    }
-
     private val noVisitedNodes = emptyList<Node>()
 
     infix fun cost(amount: Number) = LinkBuilder(amount.toDouble(), links)
@@ -50,6 +39,6 @@ class Node {
         private val cost: Double,
         private val links: MutableList<Link>
     ) {
-        infix fun to(neighbor: Node) = neighbor.also{ links.add(Link(cost, neighbor))}
+        infix fun to(neighbor: Node) = neighbor.also { links.add(Link(cost, neighbor)) }
     }
 }
