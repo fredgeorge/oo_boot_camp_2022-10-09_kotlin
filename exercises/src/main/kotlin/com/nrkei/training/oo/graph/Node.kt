@@ -22,18 +22,17 @@ class Node {
         require(it != UNREACHABLE) { "Destination cannot be reached" }
     }
 
-    private fun hopCount(destination: Node, visitedNodes: MutableList<Node>): Int {
+    private fun hopCount(destination: Node, visitedNodes: List<Node>): Int {
         if (this == destination) return 0
         if (this in visitedNodes) return UNREACHABLE
-        visitedNodes.add(this)
         var champion = UNREACHABLE
         for (n in neighbors) {
-            val challenger = n.hopCount(destination, visitedNodes)
+            val challenger = n.hopCount(destination, visitedNodes + this)
             if (challenger == UNREACHABLE) continue
             if (champion == UNREACHABLE || challenger + 1 < champion) champion = challenger + 1
         }
         return champion
     }
 
-    private val noVisitedNodes get() = mutableListOf<Node>()
+    private val noVisitedNodes = emptyList<Node>()
 }
