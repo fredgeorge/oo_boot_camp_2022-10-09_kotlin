@@ -18,6 +18,14 @@ class Node {
 
     infix fun path(destination: Node) = path(destination, Path::cost)
 
+    infix fun paths(destination: Node) = paths(destination, noVisitedNodes)
+
+    internal fun paths(destination: Node, visitedNodes: List<Node>): List<Path> {
+        if (this == destination) return listOf(Path.ActualPath())
+        if (this in visitedNodes) return emptyList()
+        return links.flatMap { it.paths(destination, visitedNodes + this) }
+    }
+
     private fun path(destination: Node, strategy: PathStrategy) =
         path(destination, noVisitedNodes, strategy)
             .also { require(it != Path.None) { "Destination cannot be reached" } }
