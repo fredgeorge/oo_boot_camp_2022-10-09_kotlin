@@ -86,4 +86,14 @@ internal class GraphTest {
             assertEquals(expectedCost.toDouble(), path.cost())
         }
     }
+
+    @Test fun `all paths from one Nodes`() {
+        assertEquals(1, A.paths().count())
+        assertEquals(9, B.paths().count())
+        assertEquals(15, C.paths().count())
+        assertEquals(6, D.paths().count())
+        assertEquals(7, E.paths().count())
+        assertEquals(1, F.paths().count())
+        assertEquals(1, G.paths().count())
+    }
 }
