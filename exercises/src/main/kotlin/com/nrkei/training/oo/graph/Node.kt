@@ -6,6 +6,8 @@
 
 package com.nrkei.training.oo.graph
 
+import com.nrkei.training.oo.graph.Path.Companion.filterBy
+
 // Understands its neighbors
 class Node {
     private val links = mutableListOf<Link>()
@@ -18,19 +20,13 @@ class Node {
 
     infix fun path(destination: Node) = path(destination, Path::cost)
 
-    infix fun paths(destination: Node) = paths(destination, noVisitedNodes)
+    infix fun paths(destination: Node) = paths().filterBy(destination)
 
     fun paths() = paths(noVisitedNodes)
 
     internal fun paths(visitedNodes: List<Node>): List<Path> {
         if (this in visitedNodes) return emptyList()
-        return links.flatMap { it.paths(visitedNodes + this) } + Path()
-    }
-
-    internal fun paths(destination: Node, visitedNodes: List<Node>): List<Path> {
-        if (this == destination) return listOf(Path())
-        if (this in visitedNodes) return emptyList()
-        return links.flatMap { it.paths(destination, visitedNodes + this) }
+        return links.flatMap { it.paths(visitedNodes + this) } + Path(this)
     }
 
     private fun path(destination: Node, strategy: PathStrategy) = paths(destination)
